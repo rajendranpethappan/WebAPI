@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <script src="Scripts/jquery-3.4.1.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var ulProducts = $('#ulProduct');
+
+            $('#btnGetValues').click(function () {
+                var inputItem = $('#txtItem').val();
+                var validation = inputValidation(inputItem.length);
+                if (validation) {
+                    $.ajax({
+                        type: 'GET',
+                        url: 'api/item/' + inputItem,
+                        datatype: 'json',
+                        success: function (data) {
+                            ulProducts.empty();
+                            if (data.length > 0) {
+                                $.each(data, function (index, val) {
+                                    var itemName = "Category : " + val.CategoryName + ", Sub Category : " + val.SubCategoryName + ", Item : " + val.ItemName + ", Item Description : " + val.ItemDescription;;
+                                    ulProducts.append('<li>' + itemName + '</li>');
+                                });
+                            }
+                            else {
+                                alert("No record found")
+                            }
+                        }
+                    });
+                } else {
+                    alert("Input value length not satisfied. Please revalidate")
+                }
+            });
+
+
+            $('#btnClear').click(function () {
+                ulProducts.empty();
+                $('#txtItem').val('');
+            });
+
+            function inputValidation(inputLength) {
+                debugger;
+                var validation = true;
+                if (inputLength == 0) {
+                    validation = true;
+                }
+                else if (inputLength < 3 || inputLength > 12) {
+                    validation = false;
+                }
+                return validation;
+            };
+        });
+    </script>
+</head>
+<body>
+    <label> Item Name: </label>
+    <input id="txtItem" type="text"  /><br><br>
+    <input id="btnGetValues" type="button" value="Get Products" />
+    <input id="btnClear" type="button" value="Clear" />
+    <ul id="ulProduct">    </ul>
+</body>
+</html>

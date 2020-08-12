@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="CategoryDBModelStoreContainer" CdmEntityContainer="CategoryDBEntities">
+    <EntitySetMapping Name="Categories">
+      <EntityTypeMapping TypeName="CategoryDBModel.Category">
+        <MappingFragment StoreEntitySet="Category">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Items">
+      <EntityTypeMapping TypeName="CategoryDBModel.Item">
+        <MappingFragment StoreEntitySet="Item">
+          <ScalarProperty Name="ItemDescription" ColumnName="ItemDescription" />
+          <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+          <ScalarProperty Name="SubCategoryId" ColumnName="SubCategoryId" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SubCategories">
+      <EntityTypeMapping TypeName="CategoryDBModel.SubCategory">
+        <MappingFragment StoreEntitySet="SubCategory">
+          <ScalarProperty Name="SubCategoryName" ColumnName="SubCategoryName" />
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

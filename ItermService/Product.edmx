@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CategoryDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SubCategoryId" Type="int" />
+          <Property Name="ItemName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ItemDescription" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="SubCategory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryId" Type="int" />
+          <Property Name="SubCategoryName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK__Item__SubCategor__1B0907CE">
+          <End Role="SubCategory" Type="Self.SubCategory" Multiplicity="0..1" />
+          <End Role="Item" Type="Self.Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubCategory">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="SubCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SubCatego__Categ__15502E78">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="SubCategory" Type="Self.SubCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SubCategory">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CategoryDBModelStoreContainer">
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Item" EntityType="Self.Item" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubCategory" EntityType="Self.SubCategory" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Item__SubCategor__1B0907CE" Association="Self.FK__Item__SubCategor__1B0907CE">
+            <End Role="SubCategory" EntitySet="SubCategory" />
+            <End Role="Item" EntitySet="Item" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SubCatego__Categ__15502E78" Association="Self.FK__SubCatego__Categ__15502E78">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="SubCategory" EntitySet="SubCategory" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CategoryDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SubCategories" Relationship="CategoryDBModel.FK__SubCatego__Categ__15502E78" FromRole="Category" ToRole="SubCategory" />
+        </EntityType>
+        <EntityContainer Name="CategoryDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Categories" EntityType="Self.Category" />
+          <EntitySet Name="Items" EntityType="CategoryDBModel.Item" />
+          <EntitySet Name="SubCategories" EntityType="CategoryDBModel.SubCategory" />
+          <AssociationSet Name="FK__SubCatego__Categ__15502E78" Association="CategoryDBModel.FK__SubCatego__Categ__15502E78">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="SubCategory" EntitySet="SubCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Item__SubCategor__1B0907CE" Association="CategoryDBModel.FK__Item__SubCategor__1B0907CE">
+            <End Role="SubCategory" EntitySet="SubCategories" />
+            <End Role="Item" EntitySet="Items" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubCategoryId" Type="Int32" />
+          <Property Name="ItemName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ItemDescription" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SubCategory" Relationship="CategoryDBModel.FK__Item__SubCategor__1B0907CE" FromRole="Item" ToRole="SubCategory" />
+        </EntityType>
+        <EntityType Name="SubCategory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryId" Type="Int32" />
+          <Property Name="SubCategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Category" Relationship="CategoryDBModel.FK__SubCatego__Categ__15502E78" FromRole="SubCategory" ToRole="Category" />
+          <NavigationProperty Name="Items" Relationship="CategoryDBModel.FK__Item__SubCategor__1B0907CE" FromRole="SubCategory" ToRole="Item" />
+        </EntityType>
+        <Association Name="FK__SubCatego__Categ__15502E78">
+          <End Type="CategoryDBModel.Category" Role="Category" Multiplicity="0..1" />
+          <End Type="CategoryDBModel.SubCategory" Role="SubCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SubCategory">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Item__SubCategor__1B0907CE">
+          <End Type="CategoryDBModel.SubCategory" Role="SubCategory" Multiplicity="0..1" />
+          <End Type="CategoryDBModel.Item" Role="Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubCategory">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="SubCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CategoryDBModelStoreContainer" CdmEntityContainer="CategoryDBEntities">
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="CategoryDBModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Items">
+            <EntityTypeMapping TypeName="CategoryDBModel.Item">
+              <MappingFragment StoreEntitySet="Item">
+                <ScalarProperty Name="ItemDescription" ColumnName="ItemDescription" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="SubCategoryId" ColumnName="SubCategoryId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubCategories">
+            <EntityTypeMapping TypeName="CategoryDBModel.SubCategory">
+              <MappingFragment StoreEntitySet="SubCategory">
+                <ScalarProperty Name="SubCategoryName" ColumnName="SubCategoryName" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
